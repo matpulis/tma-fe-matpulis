@@ -1,0 +1,26 @@
+<div class="relative flex items-center">
+  <button
+    (click)="onDeductQuantity()"
+    type="button"
+    class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+  >
+    <i class="lni lni-minus"></i>
+  </button>
+  <input
+    [(ngModel)]="quantity"
+    type="text"
+    disabled
+    aria-describedby="helper-text-explanation"
+    class="bg-white50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-20 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 border-t border-b"
+    placeholder="1"
+    min="1"
+    required
+  />
+  <button
+    (click)="onAddQuantity()"
+    type="button"
+    class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+  >
+    <i class="lni lni-plus"></i>
+  </button>
+</div>

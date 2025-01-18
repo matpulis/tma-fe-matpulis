@@ -1,0 +1,101 @@
+<div
+  class="bg-[url('/assets/images/backgrounds/background-1.jpg')] bg-cover bg-no-repeat w-screen min-h-screen grid grid-cols-1 md:grid-cols-2"
+>
+  <!-- Darken BG -->
+  <div class="bg-indigo-800/70"></div>
+
+  <!-- Login Form -->
+  <div class="bg-white flex items-center justify-center">
+    <div class="w-2/5">
+      <div class="">
+        <img
+          class="mx-auto h-10 w-auto"
+          src="/assets/images/logo.svg"
+          alt="TMA Shop"
+        />
+        <h2
+          class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900"
+        >
+          Sign in to start shopping!
+        </h2>
+      </div>
+
+      <div class="mt-10">
+        <form
+          (ngSubmit)="onLogin()"
+          [formGroup]="loginForm"
+          class="space-y-6"
+          action="#"
+          method="POST"
+        >
+          <div>
+            <label for="email" class="block text-sm/6 font-medium text-gray-900"
+              >Email address</label
+            >
+            <div class="relative mt-2">
+              <input
+                formControlName="email"
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email Address"
+                autocomplete="email"
+                required
+                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              />
+              @if (loginForm.get("email")?.hasError("email")) {
+              <p class="text-xs right-0 text-red-500 px-1 absolute">
+                Email is invalid
+              </p>
+              }
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between">
+              <label
+                for="password"
+                class="block text-sm/6 font-medium text-gray-900"
+                >Password</label
+              >
+              <div class="text-sm">
+                <a
+                  href="#"
+                  class="font-semibold text-indigo-600 hover:text-indigo-500"
+                  >Forgot password?</a
+                >
+              </div>
+            </div>
+            <div class="mt-2">
+              <input
+                formControlName="password"
+                type="password"
+                placeholder="password"
+                name="password"
+                id="password"
+                autocomplete="current-password"
+                required
+                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              />
+            </div>
+          </div>
+
+          <div>
+            <app-button type="submit" [disabled]="loginForm.invalid"
+              >Sign in</app-button
+            >
+          </div>
+        </form>
+
+        <p class="mt-10 text-center text-sm/6 text-gray-500">
+          Not a member?
+          <a
+            href="#"
+            class="font-semibold text-indigo-600 hover:text-indigo-500"
+            >Register for free!</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

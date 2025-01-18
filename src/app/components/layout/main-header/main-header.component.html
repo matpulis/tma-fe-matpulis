@@ -1,0 +1,87 @@
+<header class="border-b py-4">
+  <app-container>
+    <div class="flex items-center">
+      <!-- Logo -->
+      <a [routerLink]="['/']">
+        <img src="assets/images/logo.svg" alt="logo" class="h-10" />
+      </a>
+      <!-- Search -->
+      <div class="flex-1 px-32">
+        <app-searchbar />
+      </div>
+
+      <!-- User Section -->
+      <div class="flex items-center">
+        <!-- Shopping Cart -->
+        <button
+          aria-label="Cart"
+          type="button"
+          class="flex items-center transition rounded-lg px-2 py-1 hover:bg-indigo-100/50"
+        >
+          <div class="text-3xl">
+            <i class="text-3xl text-primary lni lni-cart-2"></i>
+          </div>
+          <div class="text-left ml-1">
+            <p class="text-xs">
+              <b>{{ productStore.totalShoppingCartItems() }}</b> Items
+            </p>
+            <p class="text-sm"><b>Cart</b></p>
+          </div>
+        </button>
+
+        <!-- Divider -->
+        <div class="border-l h-10 mx-4"></div>
+
+        <!-- User -->
+        @if (authStore.isAuthenticated()) {
+
+        <app-dropdown>
+          <button
+            dropdown-trigger
+            aria-label="Account"
+            type="button"
+            class="flex items-center transition rounded-lg px-2 py-1 hover:bg-indigo-100/50"
+          >
+            <img
+              [ngSrc]="'/assets/images/avatar.png'"
+              width="30"
+              height="30"
+              alt="Avatar"
+              class="rounded-full"
+            />
+            <div class="ml-2 text-left">
+              <p class="text-xs">Welcome</p>
+              <p class="text-sm">
+                <b>{{ authStore.user()?.name }}</b>
+              </p>
+            </div>
+            <i class="ml-1 lni lni-chevron-down"></i>
+          </button>
+
+          <app-dropdown-menu dropdown-menu>
+            <app-dropdown-menu-item>
+              <a (click)="doLogout()" class="block">Logout</a>
+            </app-dropdown-menu-item>
+          </app-dropdown-menu>
+        </app-dropdown>
+
+        } @else {
+
+        <a [routerLink]="['login']">
+          <button
+            aria-label="Account"
+            type="button"
+            class="flex items-center transition rounded-lg px-2 py-1 hover:bg-indigo-100/50"
+          >
+            <i class="text-3xl text-primary lni lni-user-4"></i>
+            <div class="ml-1 text-left">
+              <p class="text-xs">Account</p>
+              <p class="text-sm"><b>Login</b></p>
+            </div>
+          </button>
+        </a>
+        }
+      </div>
+    </div>
+  </app-container>
+</header>

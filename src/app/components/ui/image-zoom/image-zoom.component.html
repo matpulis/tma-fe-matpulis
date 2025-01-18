@@ -1,0 +1,9 @@
+<img
+  (mouseenter)="onMouseEnter()"
+  (mousemove)="onMouseMove($event)"
+  (mouseleave)="onMouseLeave()"
+  [src]="src"
+  [style]="computedPosition()"
+  alt="Image"
+  class="w-full relative object-cover transition hover:scale-150 cursor-zoom-in"
+/>
