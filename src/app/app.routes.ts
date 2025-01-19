@@ -8,6 +8,7 @@ import { MainLayoutComponent } from './components/layout/main-layout/main-layout
 import { FaqsComponent } from './pages/faqs/faqs.component';
 import { TermsConditionsComponent } from './pages/terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
+import { ShoppingCartComponent } from './components/pages/shopping-cart/shopping-cart.component';
 
 export const routes: Routes = [
     // Auth
@@ -27,6 +28,10 @@ export const routes: Routes = [
             {
                 path: 'products/:id/:slug',
                 component: ViewProductComponent
+            },
+            {
+                path: 'shopping-cart',
+                component: ShoppingCartComponent
             },
             // FAQ
             {

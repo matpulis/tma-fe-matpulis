@@ -24,10 +24,10 @@ export class ImageZoomComponent {
     if (!this.zoomed()) return;
 
     const { left, top, width, height } = (event.target as HTMLElement).getBoundingClientRect();
-    const x = ((event.clientX - left) / width) * 150 - 50;
-    const y = ((event.clientY - top) / height) * 150 - 50;
+    const x = Math.floor(((event.clientX - left) / width) * 150 - 50);
+    const y = Math.floor(((event.clientY - top) / height) * 150 - 50);
 
-    this.computedPosition.set(`left: ${x * 2}px; top:${y * 2}px;`);
+    this.computedPosition.set(`left: ${x * -2}px; top:${y * -2}px;`);
   }
 
   onMouseLeave() {

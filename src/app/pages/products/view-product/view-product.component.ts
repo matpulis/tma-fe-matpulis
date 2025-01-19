@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ContainerComponent } from "../../../components/layout/container/container.component";
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
@@ -31,7 +31,11 @@ export class ViewProductComponent implements OnInit {
   quantity = signal(1)
   addedToCart = signal(false)
   product = signal<Product | null>(null)
+  cartCount = computed(() => {
+    const cartItem = this.productsStore.shoppingCart().find(item => item.product_id === this.product_id());
 
+    return cartItem ? cartItem.quantity : 0
+  })
   FindProduct() {
     if (this.product_id() && this.product_id().length > 0) {
       this.productsService.SearchProducts(this.product_id() || '').subscribe(response => {
@@ -53,7 +57,7 @@ export class ViewProductComponent implements OnInit {
     if (product) {
       this.jsConfetti.addConfetti()
       this.addedToCart.set(true)
-      this.productsStore.AddToShoppingCart(product.id, this.quantity())
+      this.productsStore.AddToCart(product.id, this.quantity())
     }
   }
 

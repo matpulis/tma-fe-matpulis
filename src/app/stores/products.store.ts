@@ -27,11 +27,14 @@ export const ProductsStore = signalStore(
             patchState(store, { loading: true });
             productsService.FetchProducts().subscribe(response => patchState(store, { products: response.data.products, loading: false }))
         },
-        AddToShoppingCart(product_id: string, quantity: number) {
-            const item = store.shoppingCart().findIndex(item => item.product_id === product_id)
-            console.log(item);
+        AddToCart(product_id: string, quantity: number) {
+            const itemIndex = store.shoppingCart().findIndex(item => item.product_id === product_id)
+            const newQuantity = itemIndex === -1 ? quantity : store.shoppingCart()[itemIndex].quantity + quantity
 
-            patchState(store, { shoppingCart: [...store.shoppingCart(), { product_id, quantity }] })
+            patchState(store, { shoppingCart: [...store.shoppingCart().filter(item => item.product_id !== product_id), { product_id, quantity: newQuantity }] })
+        },
+        RemoveFromCart(product_id: string) {
+            patchState(store, { shoppingCart: store.shoppingCart().filter(item => item.product_id !== product_id) })
         }
     })),
     // Computed

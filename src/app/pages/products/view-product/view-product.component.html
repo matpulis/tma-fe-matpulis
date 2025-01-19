@@ -119,7 +119,15 @@
               >Add to Cart</app-button
             >
           </div>
-          }
+          @if (cartCount()> 0) {
+          <p class="mt-4">
+            There is
+            <span class="text-primary font-bold text-xl">{{
+              cartCount()
+            }}</span>
+            already in your shopping cart.
+          </p>
+          } }
         </div>
       </div>
     </app-container>
