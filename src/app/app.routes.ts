@@ -9,6 +9,7 @@ import { FaqsComponent } from './pages/faqs/faqs.component';
 import { TermsConditionsComponent } from './pages/terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import { ShoppingCartComponent } from './components/pages/shopping-cart/shopping-cart.component';
+import { BrowseProductsComponent } from './pages/browse-products/browse-products.component';
 
 export const routes: Routes = [
     // Auth
@@ -32,6 +33,10 @@ export const routes: Routes = [
             {
                 path: 'shopping-cart',
                 component: ShoppingCartComponent
+            },
+            {
+                path: 'browse',
+                component: BrowseProductsComponent
             },
             // FAQ
             {

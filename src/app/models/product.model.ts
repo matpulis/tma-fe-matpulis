@@ -1,7 +1,5 @@
-export type ProductImage = {
-    id: string;
-    url: string;
-}
+import { ProductImage } from "./product-image.model";
+
 
 export type Product = {
     id: string;
@@ -13,7 +11,7 @@ export type Product = {
     rating: number;
     collection: {
         name: string;
+        slug: string;
     },
     stock: number;
 }
-

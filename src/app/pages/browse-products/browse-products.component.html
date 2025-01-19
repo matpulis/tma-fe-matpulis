@@ -1,0 +1,142 @@
+<section>
+  <app-container>
+    <!-- Breadcrumbs -->
+    <app-breadcrumbs
+      [breadcrumbs]="[
+      { icon: 'lni-home-2', route: '/' },
+      {
+        title: 'Browse Products',
+      }
+    ]" />
+
+    <div class="grid grid-cols-5 gap-5">
+      <aside class="col-span-1 border-r">
+        <p class="font-medium text-slate-500 text-sm mb-4">Categories</p>
+
+        <ul class="space-y-2">
+          <!-- Category filters -->
+          @for (category of categories(); track $index) {
+          <li>
+            <label
+              for="{{ category.id }}"
+              class="space-x-2 hover:text-primary transition cursor-pointer select-none">
+              <input
+                (change)="onCategoryCheckChange($event, category.slug)"
+                [checked]="IsCategoryChecked(category.slug)"
+                id="{{ category.id }}"
+                class="text-blue-600 bg-gray-100 border-gray-300 rounded checked:bg-blue-600"
+                type="checkbox" />
+              <span>{{ category.name }}</span>
+              <span class="text-[11px]">({{ category.products.length }})</span>
+            </label>
+          </li>
+          }
+        </ul>
+      </aside>
+
+      <main class="col-span-4">
+        <!-- Top bar -->
+        <div class="border rounded-lg p-1 flex items-center justify-between">
+          <div class="flex items-center">
+            <button
+              type="button"
+              (click)="viewType.set('grid')"
+              [class]="
+                viewType() === 'grid'
+                  ? 'bg-primary text-white'
+                  : 'hover:bg-indigo-100/50'
+              "
+              class="w-10 h-10 flex items-center justify-center transition rounded-md">
+              <i class="lni lni-dashboard-square-1 text-2xl"></i>
+            </button>
+            <button
+              type="button"
+              (click)="viewType.set('list')"
+              [class]="
+                viewType() === 'list'
+                  ? 'bg-primary text-white'
+                  : 'hover:bg-indigo-100/50'
+              "
+              class="w-10 h-10 flex items-center justify-center transition rounded-md">
+              <i class="lni lni-menu-cheesburger text-2xl"></i>
+            </button>
+          </div>
+
+          <div class="flex-grow"></div>
+
+          <select
+            (change)="RefreshProducts()"
+            [(ngModel)]="orderBy"
+            class="text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary cursor-pointer hover:border-primary border border-transparent transition select-none">
+            <option value="name_ASC" selected>Name, A to Z</option>
+            <option value="name_DESC">Name, Z to A</option>
+            <option value="price_ASC">Price, Low to High</option>
+            <option value="price_DESC">Price, High to Low</option>
+          </select>
+        </div>
+
+        <div class="pt-4">
+          @if(filters().categories.length > 0) {
+          <i class="lni lni-funnel-1 mr-2 text-slate-400"></i>
+          } @for (cat_slug of filters().categories; track $index) {
+          <button
+            (click)="onRemoveFilter(cat_slug)"
+            class="select-none bg-indigo-100 inline capitalize py-0.5 px-2 text-sm rounded-md mr-2 text-primary border items-center space-x-2"
+            type="button">
+            <span>{{ cat_slug }}</span>
+            <i class="lni lni-xmark relative top-0.5"></i>
+          </button>
+          }
+        </div>
+
+        <div
+          class="grid gap-5 mt-5"
+          [class]="viewType() === 'grid' ? 'grid-cols-4' : 'grid-cols-1'">
+          @for (product of products(); track $index) {
+          <app-product-card
+            [viewType]="viewType()"
+            [product]="product"></app-product-card>
+          }
+        </div>
+
+        @if (products().length === 0) {
+        <div
+          class="flex items-center flex-col justify-center h-1/2 bg-slate-100 rounded-lg py-32">
+          <img
+            class="h-32 grayscale"
+            src="assets/images/illustrations/clothes-hanger.png"
+            alt="No Results" />
+          <p class="text-lg mt-4 font-light text-slate-400">
+            No products to show
+          </p>
+        </div>
+        }
+
+        <div class="flex items-center mt-5 border-t pt-5">
+          <div class="flex-grow font-medium text-sm">
+            Showing
+            {{ current_page_start() }}
+            - {{ current_page_end() }} item(s)
+          </div>
+
+          @if(pagination().hasPreviousPage){
+          <button
+            (click)="onPrevPage()"
+            type="button"
+            class="mr-8 hover:text-primary transition flex items-center justify-center">
+            Prev
+          </button>
+          } @if(pagination().hasNextPage){
+
+          <button
+            (click)="onNextPage()"
+            type="button"
+            class="hover:text-primary transition flex items-center justify-center">
+            Next
+          </button>
+          }
+        </div>
+      </main>
+    </div>
+  </app-container>
+</section>

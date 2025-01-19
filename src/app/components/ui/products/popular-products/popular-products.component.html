@@ -1,9 +1,4 @@
 <section>
-  <h3 class="font-medium capitalize">
-    Today's trending <span class="text-primary">products</span>
-  </h3>
-  <p class="font-light mb-10">People are going crazy over these products.</p>
-
   <div class="grid grid-cols-4 gap-x-8 gap-y-10">
     @for (product of productsStore.popularProducts(); track $index) {
     <app-product-card [product]="product"></app-product-card>

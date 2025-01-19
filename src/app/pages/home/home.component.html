@@ -1,110 +1,52 @@
-<section class="pt-32">
+<section>
   <app-container>
-    <app-popular-products> </app-popular-products>
+    <div class="space-y-20 pt-10">
+      <app-hero />
 
-    <section class="border-t pt-10 mt-10">
-      <div class="grid grid-cols-4 gap-x-8">
-        <div class="mb-[24px]">
-          <div
-            class="shadow-lg shadow-indigo-100 p-[30px] border-[1px] border-solid border-[#eee] rounded-[20px] text-center"
-          >
-            <div class="mb-[20px] flex justify-center">
-              <img
-                src="assets/images/illustrations/1.png"
-                alt="services-1"
-                class="w-[50px]"
-              />
-            </div>
-            <div class="">
-              <h4
-                class="text-primary mb-[8px] text-[18px] font-bold text-[#3d4750] leading-[1.2] tracking-[0.03rem]"
-              >
-                Free Shipping
-              </h4>
-              <p
-                class="font-light text-[14px] leading-[20px] text-[#686e7d] tracking-[0.03rem]"
-              >
-                Free shipping on all Us order or above €200
-              </p>
-            </div>
-          </div>
+      <section>
+        <h3 class="text-center mb-10">
+          Our Most Popular <span class="text-primary">Categories</span>
+        </h3>
+        <app-popular-categories />
+      </section>
+
+      <div class="border-t"></div>
+
+      <section>
+        <h3 class="font-medium capitalize">
+          Today's trending <span class="text-primary">products</span>
+        </h3>
+        <p class="font-light mb-10">
+          People are going crazy over these products.
+        </p>
+        <app-popular-products> </app-popular-products>
+      </section>
+
+      <div class="border-t"></div>
+
+      <section class="">
+        <div class="grid grid-cols-4 gap-x-8">
+          <app-info-card
+            title="Free Shipping"
+            subTitle="Free shipping on all Us order or above €200"
+            src="assets/images/illustrations/1.png" />
+
+          <app-info-card
+            title="24x7 Support"
+            subTitle="Contact us 24 hours a day, 7 days a week"
+            src="assets/images/illustrations/2.png" />
+
+          <app-info-card
+            title="30 Days Return"
+            subTitle="Simply return it within 30 days for an exchange"
+            src="assets/images/illustrations/3.png" />
+
+          <app-info-card
+            title="Payment Secure"
+            subTitle="Contact us 24 hours a day, 7 days a week"
+            src="assets/images/illustrations/4.png" />
         </div>
-        <div class="mb-[24px]">
-          <div
-            class="shadow-lg shadow-indigo-100 p-[30px] border-[1px] border-solid border-[#eee] rounded-[20px] text-center"
-          >
-            <div class="mb-[20px] flex justify-center">
-              <img
-                src="assets/images/illustrations/2.png"
-                alt="services-2"
-                class="w-[50px]"
-              />
-            </div>
-            <div class="">
-              <h4
-                class="text-primary mb-[8px] text-[18px] font-bold text-[#3d4750] leading-[1.2] tracking-[0.03rem]"
-              >
-                24x7 Support
-              </h4>
-              <p
-                class="font-light text-[14px] leading-[20px] text-[#686e7d] tracking-[0.03rem]"
-              >
-                Contact us 24 hours a day, 7 days a week
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="mb-[24px]">
-          <div
-            class="shadow-lg shadow-indigo-100 p-[30px] border-[1px] border-solid border-[#eee] rounded-[20px] text-center"
-          >
-            <div class="mb-[20px] flex justify-center">
-              <img
-                src="assets/images/illustrations/3.png"
-                alt="services-3"
-                class="w-[50px]"
-              />
-            </div>
-            <div class="">
-              <h4
-                class="text-primary mb-[8px] text-[18px] font-bold text-[#3d4750] leading-[1.2] tracking-[0.03rem]"
-              >
-                30 Days Return
-              </h4>
-              <p
-                class="font-light text-[14px] leading-[20px] text-[#686e7d] tracking-[0.03rem]"
-              >
-                Simply return it within 30 days for an exchange
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="mb-[24px]">
-          <div
-            class="shadow-lg shadow-indigo-100 p-[30px] border-[1px] border-solid border-[#eee] rounded-[20px] text-center"
-          >
-            <div class="mb-[20px] flex justify-center">
-              <img
-                src="assets/images/illustrations/4.png"
-                alt="services-4"
-                class="w-[50px]"
-              />
-            </div>
-            <div class="">
-              <h4
-                class="text-primary mb-[8px] text-[18px] font-bold text-[#3d4750] leading-[1.2] tracking-[0.03rem]"
-              >
-                Payment Secure
-              </h4>
-              <p
-                class="font-light text-[14px] leading-[20px] text-[#686e7d] tracking-[0.03rem]"
-              >
-                Contact us 24 hours a day, 7 days a week
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </app-container>
 </section>

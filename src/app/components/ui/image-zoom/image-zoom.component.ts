@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Input, Renderer2, signal } from '@angular/core';
+import { Component, ElementRef, inject, Renderer2, signal, input } from '@angular/core';
 
 @Component({
   selector: 'app-image-zoom',
@@ -7,8 +7,7 @@ import { Component, ElementRef, inject, Input, Renderer2, signal } from '@angula
   styleUrl: './image-zoom.component.scss'
 })
 export class ImageZoomComponent {
-  @Input() src: string = '';
-
+  src = input<string>('');
   elementRef = inject(ElementRef);
   renderer = inject(Renderer2);
 

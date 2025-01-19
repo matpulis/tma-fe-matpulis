@@ -5,6 +5,7 @@ import { ProductsStore } from '../stores/products.store';
 import { Observable } from '@apollo/client/utilities';
 import { Apollo, gql } from 'apollo-angular';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { ProductCategory } from '../models/product-category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ProductsService {
 
   SearchProducts(query: string) {
     const QUERY = gql`
-      query SearchProductByName($query: String!) {
+      query SearchProducts($query: String!) {
         products(where: {_search: $query}, last: 5){
           id,
           name,
@@ -23,6 +24,7 @@ export class ProductsService {
           slug,
           rating,
           collection{
+            slug
             name
           }
           categories{
@@ -41,11 +43,11 @@ export class ProductsService {
     return this.apollo.query<{ products: Product[] }>({ query: QUERY, variables: { query } });
   }
 
-  FetchProducts() {
+  FetchPopularProducts() {
 
     const QUERY = gql`
       query{
-        products{
+        products(where: { rating_gt: 2 }, last: 4){
           id,
           name,
           description,
@@ -53,6 +55,7 @@ export class ProductsService {
           slug,
           rating,
           collection{
+            slug
             name
           },
           categories{
@@ -73,10 +76,10 @@ export class ProductsService {
     });
   }
 
-  FindProducts(query: string) {
+  FindProductsByIds(ids: string[]) {
     const QUERY = gql`
-      query SearchProductByName($query: String!) {
-        products(where: {_search: $query}, last: 5){
+      query FindProductsByIds($ids: [ID!]!){
+        products(where: { id_in: $ids }){
           id,
           name,
           description,
@@ -84,6 +87,7 @@ export class ProductsService {
           slug,
           rating,
           collection{
+            slug
             name
           }
           categories{
@@ -96,9 +100,91 @@ export class ProductsService {
             url
           }
         }
+      } 
+    `;
+
+    return this.apollo.query<{ products: Product[] }>({ query: QUERY, variables: { ids } });
+  }
+
+  FetchProductCategories() {
+
+    const QUERY = gql`
+      query{
+        categories(orderBy: name_ASC){
+          id,
+          name,
+          slug,
+          image {
+            id
+            url
+          }
+          products{
+            id
+          }
+        }
       }
     `;
 
-    return this.apollo.query<{ products: Product[] }>({ query: QUERY, variables: { query } });
+    return this.apollo.query<{ categories: ProductCategory[] }>({
+      query: QUERY,
+    });
+  }
+
+  FilterPaginateProducts(categorySlugs: string[], limit: number, offset: number, orderBy: string) {
+
+    const QUERY = gql`
+      query FilterPaginateProducts(${categorySlugs.length > 0 ? `$categorySlugs: [String!],` : ''} $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput!) {
+        productsConnection(${categorySlugs.length > 0 ? `where: { categories_some: { slug_in: $categorySlugs } }` : ''}, first: $limit, skip: $offset, orderBy: $orderBy){
+          aggregate{
+            count
+          }
+          pageInfo{
+            hasNextPage
+            hasPreviousPage
+            pageSize
+          }
+          edges{
+            node{
+              id,
+              name,
+              description,
+              price,
+              slug,
+              rating,
+              collection{
+                slug
+                name
+              }
+              categories{
+                id,
+                name
+                slug
+              }
+              images{
+                id
+                url
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    return this.apollo.query<{
+      productsConnection: {
+        aggregate: {
+          count: number
+        },
+        pageInfo: {
+          hasNextPage: boolean,
+          hasPreviousPage: boolean,
+          pageSize: number
+        },
+        edges: { node: Product }[]
+      }
+    }>({
+      query: QUERY,
+      variables: { categorySlugs, limit, offset, orderBy },
+    });
   }
 }

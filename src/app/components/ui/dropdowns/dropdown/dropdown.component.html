@@ -7,9 +7,10 @@
   <!-- Dropdown Menu -->
   @if(isOpen()){
   <div
+    (click)="onToggleDropdown()"
     @dropdownAnimation
-    class="origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-  >
+    class="origin-top-right absolute mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+    [class]="alignRight() ? 'left-0' : 'right-0'">
     <ng-content select="[dropdown-menu]"></ng-content>
   </div>
   }

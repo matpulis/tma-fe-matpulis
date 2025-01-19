@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-product-rating',
@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './product-rating.component.scss'
 })
 export class ProductRatingComponent {
-  @Input() rating: number = 0
+  readonly rating = input<number>(0);
 
 }

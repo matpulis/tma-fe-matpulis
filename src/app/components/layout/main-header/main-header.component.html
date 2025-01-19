@@ -5,8 +5,41 @@
       <a [routerLink]="['/']">
         <img src="assets/images/logo.svg" alt="logo" class="h-10" />
       </a>
+
+      <div class="mx-10">
+        <!-- Category Selector -->
+        <app-dropdown [alignRight]="true">
+          <button
+            dropdown-trigger
+            aria-label="Account"
+            type="button"
+            class="flex items-center transition rounded-lg px-2 py-1 hover:bg-indigo-100/50">
+            Categories
+            <i class="ml-1 lni lni-chevron-down"></i>
+          </button>
+
+          <div
+            class="relative z-50 bg-white w-72 p-2 grid grid-cols-2"
+            dropdown-menu>
+            @for(cat of productStore.categories(); track $index) {
+            <a
+              [routerLink]="['/browse']"
+              [queryParams]="{ categories: [cat.slug], }">
+              <div
+                class="p-2 hover:bg-indigo-50/50 hover:text-primary rounded-lg cursor-pointer">
+                <span>{{ cat.name }}</span>
+                <span class="text-xs text-slate-400 ml-1"
+                  >({{ cat.products.length }})</span
+                >
+              </div>
+            </a>
+            }
+          </div>
+        </app-dropdown>
+      </div>
+
       <!-- Search -->
-      <div class="flex-1 px-32">
+      <div class="flex-1 mr-20">
         <app-searchbar />
       </div>
 
@@ -17,8 +50,7 @@
           [routerLink]="['shopping-cart']"
           aria-label="Cart"
           type="button"
-          class="flex items-center transition rounded-lg px-2 py-1 hover:bg-indigo-100/50"
-        >
+          class="flex items-center transition rounded-lg px-2 py-1 hover:bg-indigo-100/50">
           <div class="text-3xl">
             <i class="text-3xl text-primary lni lni-cart-2"></i>
           </div>
@@ -41,15 +73,13 @@
             dropdown-trigger
             aria-label="Account"
             type="button"
-            class="flex items-center transition rounded-lg px-2 py-1 hover:bg-indigo-100/50"
-          >
+            class="flex items-center transition rounded-lg px-2 py-1 hover:bg-indigo-100/50">
             <img
               [ngSrc]="'/assets/images/avatar.png'"
               width="30"
               height="30"
               alt="Avatar"
-              class="rounded-full"
-            />
+              class="rounded-full" />
             <div class="ml-2 text-left">
               <p class="text-xs">Welcome</p>
               <p class="text-sm">
@@ -72,8 +102,7 @@
           <button
             aria-label="Account"
             type="button"
-            class="flex items-center transition rounded-lg px-2 py-1 hover:bg-indigo-100/50"
-          >
+            class="flex items-center transition rounded-lg px-2 py-1 hover:bg-indigo-100/50">
             <i class="text-3xl text-primary lni lni-user-4"></i>
             <div class="ml-1 text-left">
               <p class="text-xs">Account</p>

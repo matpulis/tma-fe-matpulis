@@ -1,0 +1,18 @@
+<div class="-z-10 w-full rounded-lg h-[500px] border relative overflow-hidden">
+  <div
+    #sliderContainer
+    class="flex w-full items-center transition-transform duration-700 ease-in-out"
+    [style.transform]="'translateX(-' + currentIndex() * 100 + '%)'">
+    @for (slide of slides; track $index) {
+    <div
+      [style]="
+        'width: ' +
+        containerWidth() +
+        'px; background-image: url(' +
+        slide.image +
+        ')'
+      "
+      class="flex-none h-[500px] bg-cover bg-center"></div>
+    }
+  </div>
+</div>

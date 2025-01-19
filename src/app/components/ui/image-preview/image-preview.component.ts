@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
-import { ProductImage } from '../../../models/product.model';
+import { Component, OnInit, signal, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { ImageZoomComponent } from "../image-zoom/image-zoom.component";
+import { ProductImage } from '../../../models/product-image.model';
 
 @Component({
   selector: 'app-image-preview',
@@ -10,7 +10,7 @@ import { ImageZoomComponent } from "../image-zoom/image-zoom.component";
   styleUrl: './image-preview.component.scss'
 })
 export class ImagePreviewComponent {
-  @Input() images: ProductImage[] = [];
+  readonly images = input<ProductImage[]>([]);
 
   current_index = signal(0)
 

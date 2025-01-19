@@ -1,20 +1,23 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ContainerComponent } from "../../../components/layout/container/container.component";
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ProductsService } from '../../../services/products.service';
-import { Product } from '../../../models/product.model';
 import { CurrencyPipe, NgIf } from '@angular/common';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import JSConfetti from 'js-confetti';
+import { ContainerComponent } from "../../../components/layout/container/container.component";
+import { BreadcrumbsComponent } from "../../../components/ui/breadcrumbs/breadcrumbs.component";
+import { ButtonComponent } from "../../../components/ui/button/button.component";
 import { ImagePreviewComponent } from "../../../components/ui/image-preview/image-preview.component";
 import { ProductRatingComponent } from "../../../components/ui/products/product-rating/product-rating.component";
-import { ReactiveFormsModule } from '@angular/forms';
-import { ButtonComponent } from "../../../components/ui/button/button.component";
 import { QuantitySelectorComponent } from "../../../components/ui/quantity-selector/quantity-selector.component";
-import JSConfetti from 'js-confetti'
+import { Product } from '../../../models/product.model';
+import { ProductsService } from '../../../services/products.service';
 import { ProductsStore } from '../../../stores/products.store';
+import { CountdownTimerComponent } from "../../../components/ui/countdown-timer/countdown-timer.component";
+import { PopularProductsComponent } from "../../../components/ui/products/popular-products/popular-products.component";
 
 @Component({
   selector: 'app-view-product',
-  imports: [ContainerComponent, ReactiveFormsModule, RouterLink, NgIf, ImagePreviewComponent, ProductRatingComponent, CurrencyPipe, ButtonComponent, QuantitySelectorComponent],
+  imports: [ContainerComponent, ReactiveFormsModule, NgIf, ImagePreviewComponent, ProductRatingComponent, CurrencyPipe, ButtonComponent, QuantitySelectorComponent, BreadcrumbsComponent, CountdownTimerComponent, PopularProductsComponent],
   templateUrl: './view-product.component.html',
   styleUrl: './view-product.component.scss'
 })

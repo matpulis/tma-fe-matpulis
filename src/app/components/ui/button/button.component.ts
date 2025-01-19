@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './button.component.scss'
 })
 export class ButtonComponent {
-  @Input() disabled: boolean = false;
-  @Input() type: HTMLButtonElement['type'] = 'button';
+  readonly disabled = input<boolean>(false);
+  readonly type = input<HTMLButtonElement['type']>('button');
 }

@@ -1,0 +1,19 @@
+<div class="grid grid-cols-6 gap-5">
+  @for (item of productsStore.popularCategories(); track $index) {
+  <a [routerLink]="['/browse']" [queryParams]="{ categories: [item.slug], }">
+    <div
+      class="h-28 rounded-xl bg-slate-50 bg-cover transition-all shadow-md shadow-indigo-200 hover:shadow-xl hover:bg-[-120%] cursor-pointer hover:scale-105"
+      style="
+        background-image: url('assets/images/backgrounds/background-1.jpg');
+      ">
+      <div
+        class="flex items-center justify-center w-full h-full bg-black/50 rounded-xl text-white">
+        <div class="text-center">
+          <p>{{ item.name }}</p>
+          <p class="text-xs">({{ item.products.length }})</p>
+        </div>
+      </div>
+    </div>
+  </a>
+  }
+</div>
