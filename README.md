@@ -16,7 +16,7 @@ I wanted everything on the screen to have a purpose, so I added some more routes
 
 ## Technologies Used
 
-- Angular: The latest version for building the front end.
+- Angular: Used angular v19.0.0 for building the front end.
 - TypeScript: For type safety and modern JavaScript features.
 - RxJS: For reactive programming and countdown functionality.
 - Apollo GraphQL: For GraphQL API communication.
@@ -31,6 +31,7 @@ I wanted everything on the screen to have a purpose, so I added some more routes
 ## Route list
 
 - `/` - Homepage with a rotating hero banner, popular category, and product lists.
+- `login/` - Generic Login page .
 - `/browse` - Browse the product selection in a paginated interface with category filter and sorting support.
 - `/products/:category_slug/:product_id/:products_slug` - View product page with Add to cart and show related product.
 - `/shopping-cart` - View items currently in your shopping cart
@@ -41,7 +42,7 @@ I wanted everything on the screen to have a purpose, so I added some more routes
 
 ## Headless CMS
 
-I used Hygraph as my headless CMS, created all of the models and needed relationships, and seeded it with some initial dummy data. The URS is saved in the environment files, so the project should just work after an npm install and ng-serve I tested it. 😉
+I used Hygraph as my headless CMS, created all of the models and needed relationships, and seeded it with some initial dummy data. The URL for the graphql endpoint is saved in the environment files, so the project should just work after an npm install and ng-serve I tested it. 😉
 
 Ok, enough talk...
 
@@ -79,3 +80,5 @@ Ok, enough talk...
 
 Thanks again for reviewing this project!
 If you have any questions or suggestions, please reach out.
+
+Email: matpulis@outlook.com
