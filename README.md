@@ -55,22 +55,26 @@ Ok, enough talk...
 ### Installation
 
 1. Clone the repository:
-      `bash
+
+````bash
    git clone https://github.com/matpulis/tma-fe-matpulis
    cd tma-fe-matpulis
-   `
+   ```
+````
 
 2. Install dependencies:
-      `bash
+
+```bash
    npm install
-   `
+```
 
 ### Running the Application
 
 1. Start the development server:
-      `bash
-   ng serve
-   `
+
+```bash
+  ng serve
+```
 
 2. Open the application in your browser at [http://localhost:4200](http://localhost:4200).
 
