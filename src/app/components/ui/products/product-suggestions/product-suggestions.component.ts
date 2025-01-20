@@ -23,7 +23,7 @@ export class PopularProductsComponent {
     const category = this.category();
 
     if (category) {
-      this.productsService.FilterPaginateProducts([category], 4, 0, 'name_ASC', this.excludeIds()).subscribe(response => {
+      this.productsService.FilterPaginateProducts('', [category], 4, 0, 'name_ASC', this.excludeIds()).subscribe(response => {
         const items = response.data.productsConnection.edges.map(item => item.node);
 
         this.products.set(

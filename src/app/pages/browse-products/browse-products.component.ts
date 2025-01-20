@@ -4,17 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContainerComponent } from "../../components/layout/container/container.component";
 import { BreadcrumbsComponent } from "../../components/ui/breadcrumbs/breadcrumbs.component";
+import { ButtonComponent } from "../../components/ui/button/button.component";
 import { ProductCardComponent } from "../../components/ui/products/product-card/product-card.component";
 import { Product } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
+import { fadeInOut } from '../../shared/animations';
 import { ProductsStore } from '../../stores/products.store';
-import { ButtonComponent } from "../../components/ui/button/button.component";
 
 @Component({
   selector: 'app-browse-products',
   imports: [ContainerComponent, FormsModule, BreadcrumbsComponent, ProductCardComponent, ButtonComponent],
   templateUrl: './browse-products.component.html',
-  animations: [],
+  animations: [fadeInOut],
 })
 export class BrowseProductsComponent implements OnInit {
   productsService = inject(ProductsService)
@@ -35,18 +36,21 @@ export class BrowseProductsComponent implements OnInit {
     hasNextPage: false,
     hasPreviousPage: false,
     total: 0,
-    limit: 10,
   })
 
   orderBy = signal('name_ASC')
+  limit = signal(25)
+
 
   filters = signal({
+    query: '',
     categories: [] as string[]
   })
 
   constructor() {
     effect(() => {
       this.UpdateQueryParams()
+
     })
   }
 
@@ -57,6 +61,7 @@ export class BrowseProductsComponent implements OnInit {
     if (this.filters().categories.length > 0) {
       queryParams.set('categories', this.filters().categories.join(','));
       queryParams.set('orderBy', this.orderBy());
+      queryParams.set('limit', this.limit().toString());
     } else {
       queryParams.delete('categories');
     }
@@ -74,10 +79,12 @@ export class BrowseProductsComponent implements OnInit {
 
     if (checkbox.checked) {
       this.filters.set({
+        query: this.filters().query,
         categories: [...this.filters().categories, slug]
       })
     } else {
       this.filters.set({
+        query: this.filters().query,
         categories: this.filters().categories.filter((item) => item !== slug)
       })
     }
@@ -86,6 +93,8 @@ export class BrowseProductsComponent implements OnInit {
       ...this.pagination(),
       page: 1
     })
+
+    this.filters().query = ''
 
     this.RefreshProducts()
   }
@@ -98,6 +107,21 @@ export class BrowseProductsComponent implements OnInit {
       ),
     });
 
+    this.filters().query = ''
+
+
+  }
+
+  onClearAllFilters(): void {
+    this.filters.set({
+      query: '',
+      categories: [],
+    });
+    this.RefreshProducts()
+  }
+
+  onLimitChange() {
+    this.pagination().page = 1
     this.RefreshProducts()
   }
 
@@ -105,18 +129,30 @@ export class BrowseProductsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['categories']) {
         this.filters().categories = Array.isArray(params['categories']) ? params['categories'] : params['categories'].split(',')
+      } else {
+        this.filters().categories = []
       }
+
+      if (params['query']) {
+        this.filters().query = params['query']
+      } else {
+        this.filters().query = ''
+      }
+
+      this.RefreshProducts()
     });
   }
 
   RefreshProducts() {
     const pagination = this.pagination()
 
-    const offset = pagination.page == 1 ? 0 : (pagination.page - 1) * pagination.limit
+    const offset = pagination.page == 1 ? 0 : (pagination.page - 1) * this.limit()
 
+    let limit = this.limit();
+    limit = typeof limit === 'string' ? parseInt(limit) : this.limit()
 
     this.productsService
-      .FilterPaginateProducts(this.filters().categories, pagination.limit, offset, this.orderBy())
+      .FilterPaginateProducts(this.filters().query, this.filters().categories, limit, offset, this.orderBy())
       .subscribe(response => {
 
         this.pagination.update(pagination => ({
@@ -139,7 +175,6 @@ export class BrowseProductsComponent implements OnInit {
     this.RefreshProducts()
   }
 
-
   onPrevPage() {
     this.pagination.update(pagination => ({
       ...pagination,
@@ -149,12 +184,12 @@ export class BrowseProductsComponent implements OnInit {
   }
 
   current_page_start = computed(() => {
-    const value = this.pagination().page === 1 ? 1 : (this.pagination().limit * (this.pagination().page - 1)) + 1
+    const value = this.pagination().page === 1 ? 1 : (this.limit() * (this.pagination().page - 1)) + 1
     return this.pagination().total === 0 ? 0 : value
   })
 
   current_page_end = computed(() => {
-    const value = this.pagination().limit * this.pagination().page
+    const value = this.limit() * this.pagination().page
 
     return value > this.pagination().total ? this.pagination().total : value
   })

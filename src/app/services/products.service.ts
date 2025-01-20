@@ -130,13 +130,14 @@ export class ProductsService {
     });
   }
 
-  FilterPaginateProducts(categorySlugs: string[], limit: number, offset: number, orderBy: string, excludeIds: string[] = []) {
+  FilterPaginateProducts(query: string, categorySlugs: string[], limit: number, offset: number, orderBy: string, excludeIds: string[] = []) {
 
     const hasCategory = categorySlugs.length > 0
 
     const QUERY = gql`
-      query FilterPaginateProducts($limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput!, ${hasCategory ? '$categorySlugs: [String!]' : ''}) {
+      query FilterPaginateProducts($query: String!, $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput!, ${hasCategory ? '$categorySlugs: [String!]' : ''}) {
         productsConnection(where: { 
+          _search: $query,
           ${hasCategory ? 'categories_some: { slug_in: $categorySlugs },' : ''} 
           }, first: $limit, skip: $offset, orderBy: $orderBy){
           aggregate{
@@ -188,7 +189,7 @@ export class ProductsService {
       }
     }>({
       query: QUERY,
-      variables: { categorySlugs, limit, offset, orderBy, excludeIds },
+      variables: { query, categorySlugs, limit, offset, orderBy, excludeIds },
     });
   }
 }

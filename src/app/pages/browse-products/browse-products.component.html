@@ -21,7 +21,20 @@
           <i class="lni lni-xmark text-3xl text-primary"></i>
         </button>
 
-        <p class="mb-4 text-sm font-medium text-slate-500">Categories</p>
+        @if (filters().categories.length > 0) {
+          <div [@fadeInOut] class="pr-4">
+            <button
+              (click)="onClearAllFilters()"
+              class="mb-5 w-full rounded-lg border border-primary py-2 text-xs"
+              type="button">
+              Clear ({{ filters().categories.length }}) Filters
+            </button>
+          </div>
+        }
+
+        <p class="mb-4 text-sm font-medium text-slate-500">
+          <i class="lni lni-funnel-1 text-primary"></i> Filters
+        </p>
 
         <ul class="space-y-2">
           <!-- Category filters -->
@@ -47,6 +60,31 @@
       </aside>
 
       <main class="col-span-5 md:col-span-4">
+        @if (filters().query.length > 0) {
+          <p class="mb-2 text-lg">
+            Found
+            <span class="font-medium">{{ pagination().total }}</span> products
+            searching for '<span class="font-medium">{{ filters().query }}</span
+            >'
+          </p>
+        }
+
+        @if (filters().categories.length > 0) {
+          <div [@fadeInOut] class="mb-2">
+            <p class="mb-1 flex items-center text-xs">Categories:</p>
+
+            @for (cat_slug of filters().categories; track $index) {
+              <button
+                (click)="onRemoveFilter(cat_slug)"
+                class="mb-2 mr-2 inline animate-fade-in-left select-none items-center space-x-2 rounded-md border bg-indigo-100 px-2 py-0.5 text-sm capitalize text-primary opacity-0"
+                type="button">
+                <span>{{ cat_slug }}</span>
+                <i class="lni lni-xmark relative top-0.5"></i>
+              </button>
+            }
+          </div>
+        }
+
         <!-- Top bar -->
         <div class="flex items-center justify-between rounded-lg border p-1">
           <div class="flex items-center">
@@ -55,7 +93,7 @@
               type="button"
               (click)="viewType.set('grid')"
               class="flex h-10 w-10 items-center justify-center rounded-md transition hover:bg-indigo-100/50 md:hidden">
-              <i class="lni lni-funnel-1 text-2l text-primary"></i>
+              <i class="lni lni-funnel-1 textlg text-primary"></i>
             </button>
             <button
               type="button"
@@ -83,6 +121,17 @@
 
           <div class="flex-grow"></div>
 
+          <div class="flex items-center">
+            <span class="text-sm text-slate-500">Show: </span>
+            <select
+              (change)="onLimitChange()"
+              [(ngModel)]="limit"
+              class="block w-16 cursor-pointer select-none rounded-lg border border-transparent p-2.5 text-sm transition hover:border-primary focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary dark:focus:ring-primary">
+              <option [value]="10" selected>10</option>
+              <option [value]="25">25</option>
+              <option [value]="50">50</option>
+            </select>
+          </div>
           <select
             (change)="RefreshProducts()"
             [(ngModel)]="orderBy"
@@ -92,21 +141,6 @@
             <option value="price_ASC">Price, Low to High</option>
             <option value="price_DESC">Price, High to Low</option>
           </select>
-        </div>
-
-        <div class="pt-4">
-          @if (filters().categories.length > 0) {
-            <i class="lni lni-funnel-1 mr-2 text-slate-400"></i>
-          }
-          @for (cat_slug of filters().categories; track $index) {
-            <button
-              (click)="onRemoveFilter(cat_slug)"
-              class="mb-2 mr-2 inline animate-fade-in-left select-none items-center space-x-2 rounded-md border bg-indigo-100 px-2 py-0.5 text-sm capitalize text-primary opacity-0"
-              type="button">
-              <span>{{ cat_slug }}</span>
-              <i class="lni lni-xmark relative top-0.5"></i>
-            </button>
-          }
         </div>
 
         <div
@@ -147,6 +181,7 @@
             @if (pagination().hasPreviousPage) {
               <app-button (click)="onPrevPage()">Prev</app-button>
             }
+            <span>Page {{ pagination().page }}</span>
             @if (pagination().hasNextPage) {
               <app-button (click)="onNextPage()">Next</app-button>
             }

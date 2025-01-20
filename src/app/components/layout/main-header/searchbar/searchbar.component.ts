@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { NgClass } from '@angular/common';
 import { Component, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { debounceTime, tap } from 'rxjs';
 import { Product } from '../../../../models/product.model';
 import { HighlightPipe } from '../../../../pipe/highlight.pipe';
@@ -39,6 +39,7 @@ import { ProductsService } from '../../../../services/products.service';
   ],
 })
 export class SearchbarComponent implements OnInit {
+  router = inject(Router)
   mobileMenuOpen = signal(false)
 
   searchContainer = viewChild<ElementRef>('searchContainer')
@@ -65,6 +66,7 @@ export class SearchbarComponent implements OnInit {
   results = signal<Product[]>([]);
   searchQuery = new FormControl('');
 
+
   SearchProducts(query: string) {
 
 
@@ -79,6 +81,13 @@ export class SearchbarComponent implements OnInit {
       this.searching.set(false)
     }
   }
+
+
+  onSearchByKeyword() {
+    this.router.navigate(['/browse'], { queryParams: { query: this.searchQuery.value } });
+    this.searchQuery.reset();
+  }
+
   ngOnInit() {
     this.searchQuery.valueChanges
       .pipe(tap(() => this.searching.set(true)), debounceTime(750)) // 1 second debounce

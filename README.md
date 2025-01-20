@@ -72,7 +72,7 @@ Ok, enough talk...
 1. Start the development server:
 
 ```bash
-  ng serve
+  npm run start
 ```
 
 2. Open the application in your browser at [http://localhost:4200](http://localhost:4200).

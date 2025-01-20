@@ -7,6 +7,7 @@
     <div class="relative z-10 pr-10 md:pr-0">
       <input
         [formControl]="searchQuery"
+        (keydown.enter)="onSearchByKeyword()"
         (focus)="onFocus()"
         (blur)="onBlur()"
         type="text"
@@ -55,7 +56,7 @@
   @if (show_results()) {
     <div
       @resultsAnimation
-      class="fixed left-0 top-14 z-20 h-screen w-full bg-slate-500/40 p-4 pb-32 md:absolute md:h-auto md:p-0 md:pb-0">
+      class="fixed left-0 top-14 z-20 h-screen w-full bg-slate-500/40 p-4 pb-32 md:absolute md:h-auto md:bg-transparent md:p-0 md:pb-0">
       <ul class="rounded-lg border bg-white py-2">
         @for (product of results(); track $index) {
           <li
