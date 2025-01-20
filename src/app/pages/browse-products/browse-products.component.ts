@@ -149,9 +149,10 @@ export class BrowseProductsComponent implements OnInit {
   }
 
   current_page_start = computed(() => {
-    const value = this.pagination().page === 1 ? 1 : (this.pagination().limit * this.pagination().page) - 1
+    const value = this.pagination().page === 1 ? 1 : (this.pagination().limit * (this.pagination().page - 1)) + 1
     return this.pagination().total === 0 ? 0 : value
   })
+
   current_page_end = computed(() => {
     const value = this.pagination().limit * this.pagination().page
 
