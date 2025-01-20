@@ -4,7 +4,7 @@
 
 Thank you for taking the time to go through my project submission. I hope that I have filled all of your requirement criteria and a little bit extra 🤖.
 
-I wanted everything on the screen to have a purpose, so I added some more routes and functionality to round up and get as close to a completed product as possible without going overboard. I did not use any UI component libraries and wrote all of the components myself to demonstrate my deep understanding of modern front-end frameworks and concepts.
+I wanted everything on the screen to have a purpose, so I added some more routes and functionality to round up and get as close to a completed product as possible without going overboard. I did not use any UI component libraries, I took inspiration from an e-commerce template but wrote all of the components myself to demonstrate my deep understanding of modern front-end frameworks and concepts.
 
 ##### Additional features implemented:
 

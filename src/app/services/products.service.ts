@@ -1,11 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { of } from 'rxjs';
-import { Product } from '../models/product.model';
-import { ProductsStore } from '../stores/products.store';
-import { Observable } from '@apollo/client/utilities';
 import { Apollo, gql } from 'apollo-angular';
-import { ApolloQueryResult } from '@apollo/client/core';
 import { ProductCategory } from '../models/product-category.model';
+import { Product } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -75,7 +71,6 @@ export class ProductsService {
       query: QUERY,
     });
   }
-
   FindProductsByIds(ids: string[]) {
     const QUERY = gql`
       query FindProductsByIds($ids: [ID!]!){

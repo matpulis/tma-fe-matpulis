@@ -19,9 +19,6 @@
           }
         }
       },
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
     },
     {
       "type": "npm",

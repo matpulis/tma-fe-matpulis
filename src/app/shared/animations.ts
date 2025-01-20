@@ -17,6 +17,7 @@ export const fadeInOut = trigger('fadeInOut', [
         animate('300ms 100ms ease-out', style({ opacity: 0, })),
     ]),
 ])
+
 export const fadeInLeft = trigger('fadeInLeft', [
     transition(':enter', [
         style({ opacity: 0, transform: 'translateX(30px)' }),
