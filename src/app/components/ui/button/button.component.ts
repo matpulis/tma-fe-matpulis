@@ -4,7 +4,6 @@ import { Component, input } from '@angular/core';
   selector: 'app-button',
   imports: [],
   templateUrl: './button.component.html',
-  styleUrl: './button.component.scss'
 })
 export class ButtonComponent {
   readonly disabled = input<boolean>(false);

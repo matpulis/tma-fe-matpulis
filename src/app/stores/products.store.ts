@@ -41,23 +41,27 @@ export const ProductsStore = signalStore(
             })
 
         },
-        AddToCart(product_id: string, quantity: number) {
-            const itemIndex = store.shoppingCart().findIndex(item => item.product_id === product_id)
+        AddToCart(productId: string, quantity: number) {
+            const itemIndex = store.shoppingCart().findIndex(item => item.productId === productId)
             const newQuantity = itemIndex === -1 ? quantity : store.shoppingCart()[itemIndex].quantity + quantity
 
-            patchState(store, { shoppingCart: [...store.shoppingCart().filter(item => item.product_id !== product_id), { product_id, quantity: newQuantity }] })
+            patchState(store, { shoppingCart: [...store.shoppingCart().filter(item => item.productId !== productId), { productId, quantity: newQuantity }] })
 
             this.PersistToLocalStorage()
         },
-        RemoveFromCart(product_id: string) {
-            patchState(store, { shoppingCart: store.shoppingCart().filter(item => item.product_id !== product_id) })
+        RemoveFromCart(productId: string) {
+            patchState(store, { shoppingCart: store.shoppingCart().filter(item => item.productId !== productId) })
             this.PersistToLocalStorage()
         },
-        UpdateQuantityInCart(product_id: string, quantity: number) {
+        UpdateQuantityInCart(productId: string, quantity: number) {
             if (quantity > 0) {
-                patchState(store, { shoppingCart: store.shoppingCart().map(item => item.product_id === product_id ? { ...item, quantity } : item) })
+                patchState(store, { shoppingCart: store.shoppingCart().map(item => item.productId === productId ? { ...item, quantity } : item) })
             }
 
+            this.PersistToLocalStorage()
+        },
+        ClearCart() {
+            patchState(store, { shoppingCart: [] })
             this.PersistToLocalStorage()
         },
         PersistToLocalStorage() {
@@ -71,8 +75,8 @@ export const ProductsStore = signalStore(
         }),
         popularCategories: computed(() => {
 
-
-            return state.categories().slice(0, 6)
+            const categories = [...state.categories()]
+            return categories.length > 0 ? categories.sort((a, b) => b.products.length - a.products.length).splice(0, 6) : []
         })
     }))
 );

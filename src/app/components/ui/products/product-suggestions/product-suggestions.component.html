@@ -1,0 +1,14 @@
+<section>
+  <div class="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
+    @for (
+      product of category() ? products() : productsStore.popularProducts();
+      track $index
+    ) {
+      <app-product-card [product]="product"></app-product-card>
+    }
+
+    @if (products().length === 0) {
+      <div class="">No related products found</div>
+    }
+  </div>
+</section>

@@ -130,11 +130,15 @@ export class ProductsService {
     });
   }
 
-  FilterPaginateProducts(categorySlugs: string[], limit: number, offset: number, orderBy: string) {
+  FilterPaginateProducts(categorySlugs: string[], limit: number, offset: number, orderBy: string, excludeIds: string[] = []) {
+
+    const hasCategory = categorySlugs.length > 0
 
     const QUERY = gql`
-      query FilterPaginateProducts(${categorySlugs.length > 0 ? `$categorySlugs: [String!],` : ''} $limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput!) {
-        productsConnection(${categorySlugs.length > 0 ? `where: { categories_some: { slug_in: $categorySlugs } }` : ''}, first: $limit, skip: $offset, orderBy: $orderBy){
+      query FilterPaginateProducts($limit: Int!, $offset: Int!, $orderBy: ProductOrderByInput!, ${hasCategory ? '$categorySlugs: [String!]' : ''}) {
+        productsConnection(where: { 
+          ${hasCategory ? 'categories_some: { slug_in: $categorySlugs },' : ''} 
+          }, first: $limit, skip: $offset, orderBy: $orderBy){
           aggregate{
             count
           }
@@ -184,7 +188,7 @@ export class ProductsService {
       }
     }>({
       query: QUERY,
-      variables: { categorySlugs, limit, offset, orderBy },
+      variables: { categorySlugs, limit, offset, orderBy, excludeIds },
     });
   }
 }

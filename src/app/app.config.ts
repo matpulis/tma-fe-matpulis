@@ -7,6 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,7 +18,7 @@ export const appConfig: ApplicationConfig = {
 
       return {
         link: httpLink.create({
-          uri: 'https://eu-west-2.cdn.hygraph.com/content/cm5ntdrhs01ve08uy8413fhqk/master',
+          uri: environment.GRAPHQL_ENDPOINT,
         }),
         cache: new InMemoryCache(),
       };

@@ -6,7 +6,6 @@ import { ScrollToTopComponent } from "../../components/ui/scroll-to-top/scroll-t
   selector: 'app-terms-conditions',
   imports: [ContainerComponent, ScrollToTopComponent],
   templateUrl: './terms-conditions.component.html',
-  styleUrl: './terms-conditions.component.scss'
 })
 export class TermsConditionsComponent {
 

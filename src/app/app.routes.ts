@@ -10,6 +10,7 @@ import { TermsConditionsComponent } from './pages/terms-conditions/terms-conditi
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import { ShoppingCartComponent } from './components/pages/shopping-cart/shopping-cart.component';
 import { BrowseProductsComponent } from './pages/browse-products/browse-products.component';
+import { OrderConfirmationComponent } from './pages/order-confirmation/order-confirmation.component';
 
 export const routes: Routes = [
     // Auth
@@ -27,12 +28,16 @@ export const routes: Routes = [
             { path: '', component: HomeComponent },
             // View Product
             {
-                path: 'products/:id/:slug',
+                path: 'products/:categorySlug/:id/:productSlug',
                 component: ViewProductComponent
             },
             {
                 path: 'shopping-cart',
                 component: ShoppingCartComponent
+            },
+            {
+                path: 'order-confirmation',
+                component: OrderConfirmationComponent
             },
             {
                 path: 'browse',

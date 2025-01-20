@@ -5,7 +5,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-breadcrumbs',
   imports: [RouterLink],
   templateUrl: './breadcrumbs.component.html',
-  styleUrl: './breadcrumbs.component.scss'
 })
 export class BreadcrumbsComponent {
   breadcrumbs = input<{

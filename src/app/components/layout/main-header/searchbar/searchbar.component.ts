@@ -1,18 +1,17 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { NgClass } from '@angular/common';
-import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
-import { Product } from '../../../../models/product.model';
+import { Component, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, tap } from 'rxjs';
-import { ProductsService } from '../../../../services/products.service';
-import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { HighlightPipe } from '../../../../pipe/highlight.pipe';
 import { RouterLink } from '@angular/router';
+import { debounceTime, tap } from 'rxjs';
+import { Product } from '../../../../models/product.model';
+import { HighlightPipe } from '../../../../pipe/highlight.pipe';
+import { ProductsService } from '../../../../services/products.service';
 
 @Component({
   selector: 'app-searchbar',
   imports: [NgClass, ReactiveFormsModule, HighlightPipe, RouterLink],
   templateUrl: './searchbar.component.html',
-  styleUrl: './searchbar.component.scss',
   animations: [
     trigger('resultsAnimation', [
       transition(':enter', [
@@ -40,12 +39,14 @@ import { RouterLink } from '@angular/router';
   ],
 })
 export class SearchbarComponent implements OnInit {
-  @ViewChild('searchContainer') searchContainer!: ElementRef;
+  mobileMenuOpen = signal(false)
+
+  searchContainer = viewChild<ElementRef>('searchContainer')
 
   // Highlight
   highlightWidth = signal(0);
   onFocus() {
-    this.highlightWidth.set(this.searchContainer.nativeElement.offsetWidth);
+    this.highlightWidth.set(this.searchContainer()?.nativeElement.offsetWidth);
     this.SearchProducts(this.searchQuery.value || '');
   }
 
@@ -89,6 +90,10 @@ export class SearchbarComponent implements OnInit {
   onClick(event: Event, product: Product) {
     event.stopImmediatePropagation();
     this.results.set([]);
+    this.mobileMenuOpen.set(false)
   }
 
+  onToggleMobileMenu() {
+    this.mobileMenuOpen.set(!this.mobileMenuOpen())
+  }
 }

@@ -5,7 +5,6 @@ import { Component, ElementRef, HostListener, inject, input, signal } from '@ang
 @Component({
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.scss'],
   animations: [
     trigger('dropdownAnimation', [
       transition(':enter', [

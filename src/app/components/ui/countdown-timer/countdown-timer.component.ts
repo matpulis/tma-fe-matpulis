@@ -8,7 +8,6 @@ import { map } from 'rxjs/operators';
   selector: 'app-countdown-timer',
   imports: [AsyncPipe],
   templateUrl: './countdown-timer.component.html',
-  styleUrl: './countdown-timer.component.scss',
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [ // Enter animation

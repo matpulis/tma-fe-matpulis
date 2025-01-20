@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-quantity-selector',
   imports: [FormsModule],
   templateUrl: './quantity-selector.component.html',
-  styleUrl: './quantity-selector.component.scss'
 })
 export class QuantitySelectorComponent {
   quantity = model(1);

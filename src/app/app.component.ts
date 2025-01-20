@@ -8,7 +8,6 @@ import { fadeAnimation } from './shared/animations';
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
   animations: [fadeAnimation]
 })
 export class AppComponent implements OnInit {

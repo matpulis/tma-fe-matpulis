@@ -9,7 +9,6 @@ import { ProductsStore } from '../../../stores/products.store';
   selector: 'app-shopping-cart-item',
   imports: [NgIf, RouterLink, CurrencyPipe, QuantitySelectorComponent],
   templateUrl: './shopping-cart-item.component.html',
-  styleUrl: './shopping-cart-item.component.scss'
 })
 export class ShoppingCartItemComponent {
   productsStore = inject(ProductsStore)

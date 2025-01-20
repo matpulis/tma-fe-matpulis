@@ -1,22 +1,28 @@
 <div *ngIf="product() as product">
   <!-- Product View -->
-  <section class="my-14">
+  <section>
     <app-container>
       <!-- Breadcrumbs -->
       <app-breadcrumbs
         [breadcrumbs]="[
-        { icon: 'lni-home-2', route: '/' },
+          { icon: 'lni-home-2', route: '/' },
           {
-            title: product.collection.name,
+            title: product.categories[0].name,
             route: '/browse',
-            queryParams: { collection: product.collection.slug }
+            queryParams: { categories: product.categories[0].slug },
           },
           {
             title: product.name,
-          }
+          },
         ]" />
 
-      <div class="grid grid-cols-5 gap-5">
+      <a [routerLink]="['/browse']" class="mb-4 inline-block">
+        <button class="flex items-center">
+          <i class="lni lni-chevron-left"></i> Back
+        </button>
+      </a>
+
+      <div class="flex grid-cols-5 flex-col-reverse gap-5 md:grid">
         <!-- Image Preview -->
         <div class="col-span-2">
           <app-image-preview [images]="product.images" />
@@ -24,7 +30,7 @@
         <!-- Product Details -->
         <div class="col-span-3">
           <h3>{{ product.name }}</h3>
-          <p class="text-slate-400 font-light">SKU: {{ product.id }}</p>
+          <p class="font-light text-slate-400">SKU: {{ product.id }}</p>
 
           <div class="my-5 flex items-center">
             <app-product-rating [rating]="product.rating" />
@@ -33,58 +39,67 @@
               {{ review_count * product.rating }} Reviews</span
             >
           </div>
-          <p class="mb-10 font-medium text-3xl">
-            {{ product.price | currency : 'EUR' : 'symbol' : '1.0-0' }}
+          <p class="mb-10 text-3xl font-medium">
+            {{ product.price | currency: 'EUR' : 'symbol' : '1.0-0' }}
           </p>
 
-          <h6 class="font-medium">Product Description</h6>
+          <h6 class="mb-3 font-medium">Product Description</h6>
 
-          <p class="tracking-wide font-light">{{ product.description }}</p>
+          <p class="text-sm font-light tracking-wide md:text-base">
+            {{ product.description }}
+          </p>
 
-          @if(addedToCart()) {
-          <div
-            class="mt-10 inline-block text-xl rounded-xl bg-primary text-white p-4">
-            <div class="flex items-center">
-              <i class="lni lni-check-circle-1 text-3xl mr-4"></i>
+          @if (addedToCart()) {
+            <div
+              class="mt-10 inline-block rounded-xl bg-primary p-4 text-xl text-white">
+              <div class="flex items-center">
+                <i class="lni lni-check-circle-1 mr-4 text-3xl"></i>
 
-              <span
-                ><b>{{ quantity() }}</b> Item{{
-                  quantity() > 1 ? 's' : ''
-                }}
-                added to cart!</span
-              >
+                <span
+                  ><b>{{ quantity() }}</b> Item{{
+                    quantity() > 1 ? 's' : ''
+                  }}
+                  added to cart!</span
+                >
+              </div>
             </div>
-          </div>
-          }@else {
-          <div class="mt-10">
-            <label
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Choose quantity:</label
-            >
-          </div>
-          <div class="flex items-center">
-            <app-quantity-selector [(quantity)]="quantity" />
-            <app-button (click)="onAddToCart()" class="ms-3" type="submit"
-              >Add to Cart</app-button
-            >
-          </div>
-          @if (cartCount()> 0) {
-          <p class="mt-4 text-sm">
-            You have
-            <span class="text-primary font-bold text-xl">{{
-              cartCount()
-            }}</span>
-            already in your shopping cart.
-          </p>
-          } }
+          } @else {
+            <div>
+              <div class="mt-10">
+                <label
+                  class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >Choose quantity:</label
+                >
+              </div>
+              <div class="flex items-center">
+                <app-quantity-selector [(quantity)]="quantity" />
+                <app-button (click)="onAddToCart()" class="ms-3" type="submit"
+                  >Add to Cart</app-button
+                >
+              </div>
+              @if (cartCount() > 0) {
+                <p class="mt-4 text-sm">
+                  You have
+                  <span class="text-xl font-bold text-primary">{{
+                    cartCount()
+                  }}</span>
+                  already in your shopping cart.
+                </p>
+              }
+            </div>
+          }
 
-          <app-countdown-timer />
+          <div class="mb-10">
+            <app-countdown-timer />
+          </div>
         </div>
       </div>
 
-      <div class="pt-10 border-t mt-20">
+      <div class="mt-20 border-t pt-10">
         <h3 class="mb-5">Related Products</h3>
-        <app-popular-products />
+        <app-product-suggestions
+          [excludeIds]="[product.id]"
+          [category]="categorySlug()" />
       </div>
     </app-container>
   </section>

@@ -1,6 +1,6 @@
-import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { Location } from '@angular/common';
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContainerComponent } from "../../components/layout/container/container.component";
 import { BreadcrumbsComponent } from "../../components/ui/breadcrumbs/breadcrumbs.component";
@@ -8,41 +8,13 @@ import { ProductCardComponent } from "../../components/ui/products/product-card/
 import { Product } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
 import { ProductsStore } from '../../stores/products.store';
-import { FormsModule } from '@angular/forms';
+import { ButtonComponent } from "../../components/ui/button/button.component";
 
 @Component({
   selector: 'app-browse-products',
-  imports: [ContainerComponent, FormsModule, BreadcrumbsComponent, ProductCardComponent],
+  imports: [ContainerComponent, FormsModule, BreadcrumbsComponent, ProductCardComponent, ButtonComponent],
   templateUrl: './browse-products.component.html',
-  styleUrl: './browse-products.component.scss',
-  animations: [
-    trigger('listAnimation', [
-      // Entry animation
-      transition(':enter', [
-        query(':enter', [
-          style({ opacity: 0, transform: 'translateY(-20px)' }),
-          stagger('100ms', [
-            animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-          ])
-        ], { optional: true })
-      ]),
-
-      // Exit animation
-      transition(':leave', [
-        animate('300ms ease-in', style({ opacity: 0, transform: 'translateY(20px)' }))
-      ])
-    ]),
-    trigger('reorderAnimation', [
-      transition(':increment', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('300ms ease-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition(':decrement', [
-        style({ transform: 'translateX(100%)' }),
-        animate('300ms ease-out', style({ transform: 'translateX(0)' }))
-      ])
-    ])
-  ],
+  animations: [],
 })
 export class BrowseProductsComponent implements OnInit {
   productsService = inject(ProductsService)
@@ -50,6 +22,7 @@ export class BrowseProductsComponent implements OnInit {
   route = inject(ActivatedRoute)
   router = inject(Router)
   location = inject(Location)
+  filtersToggled = signal(false)
 
   viewType = signal<'grid' | 'list'>('grid')
 
@@ -76,6 +49,7 @@ export class BrowseProductsComponent implements OnInit {
       this.UpdateQueryParams()
     })
   }
+
 
   private UpdateQueryParams(): void {
     const queryParams = new URLSearchParams(window.location.search);
@@ -107,6 +81,11 @@ export class BrowseProductsComponent implements OnInit {
         categories: this.filters().categories.filter((item) => item !== slug)
       })
     }
+
+    this.pagination.set({
+      ...this.pagination(),
+      page: 1
+    })
 
     this.RefreshProducts()
   }
@@ -146,10 +125,7 @@ export class BrowseProductsComponent implements OnInit {
           hasPreviousPage: response.data.productsConnection.pageInfo.hasPreviousPage,
           total: response.data.productsConnection.aggregate.count
         }))
-        console.log({
-          hasNextPage: response.data.productsConnection.pageInfo.hasNextPage,
-          hasPreviousPage: response.data.productsConnection.pageInfo.hasPreviousPage
-        });
+
 
         this.products.set(response.data.productsConnection.edges.map(item => item.node))
       })
@@ -181,6 +157,11 @@ export class BrowseProductsComponent implements OnInit {
 
     return value > this.pagination().total ? this.pagination().total : value
   })
+
+  onToggleFilters() {
+    this.filtersToggled.set(!this.filtersToggled())
+  }
+
   ngOnInit(): void {
     this.ParseQueryParams()
     this.RefreshProducts()

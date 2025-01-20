@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-popular-categories',
   imports: [RouterLink],
   templateUrl: './popular-categories.component.html',
-  styleUrl: './popular-categories.component.scss'
 })
 export class PopularCategoriesComponent {
   productsStore = inject(ProductsStore)

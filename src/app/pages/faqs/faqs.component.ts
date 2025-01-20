@@ -5,7 +5,6 @@ import { ContainerComponent } from "../../components/layout/container/container.
   selector: 'app-faqs',
   imports: [ContainerComponent],
   templateUrl: './faqs.component.html',
-  styleUrl: './faqs.component.scss'
 })
 export class FaqsComponent {
   faqs = [

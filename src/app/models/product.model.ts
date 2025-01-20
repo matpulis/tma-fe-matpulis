@@ -1,3 +1,4 @@
+import { ProductCategory } from "./product-category.model";
 import { ProductImage } from "./product-image.model";
 
 
@@ -13,5 +14,6 @@ export type Product = {
         name: string;
         slug: string;
     },
+    categories: ProductCategory[]
     stock: number;
 }

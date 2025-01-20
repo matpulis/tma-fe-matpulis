@@ -21,9 +21,10 @@ export class ProductCardComponent {
   jsConfetti = new JSConfetti()
 
   alreadyAddedToCart = computed(() => {
-    return this.productsStore.shoppingCart().some(item => item.product_id === this.product()?.id)
+    return this.productsStore.shoppingCart().some(item => item.productId === this.product()?.id)
   })
   onAddToCart(event: Event) {
+    event.preventDefault()
     event.stopPropagation()
 
     const product = this.product();

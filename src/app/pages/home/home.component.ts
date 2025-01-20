@@ -1,17 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { AuthStore } from '../../stores/auth.store';
+import { Component } from '@angular/core';
 import { ContainerComponent } from "../../components/layout/container/container.component";
-import { PopularProductsComponent } from "../../components/ui/products/popular-products/popular-products.component";
 import { HeroComponent } from "../../components/ui/hero/hero.component";
-import { interval } from 'rxjs';
-import { PopularCategoriesComponent } from "../../components/ui/popular-categories/popular-categories.component";
 import { InfoCardComponent } from "../../components/ui/info-card/info-card.component";
+import { PopularCategoriesComponent } from "../../components/ui/popular-categories/popular-categories.component";
+import { PopularProductsComponent } from "../../components/ui/products/product-suggestions/product-suggestions.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [ContainerComponent, PopularProductsComponent, HeroComponent, PopularCategoriesComponent, InfoCardComponent],
+  imports: [ContainerComponent, PopularProductsComponent, HeroComponent, PopularCategoriesComponent, InfoCardComponent, RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
 })
 export class HomeComponent {
 

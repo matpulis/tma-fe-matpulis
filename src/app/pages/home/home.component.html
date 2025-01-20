@@ -1,13 +1,23 @@
 <section>
   <app-container>
-    <div class="space-y-20 pt-10">
+    <div class="space-y-10 pt-3 md:space-y-20 md:pt-10">
       <app-hero />
 
       <section>
-        <h3 class="text-center mb-10">
+        <h3 class="mb-10 text-center">
           Our Most Popular <span class="text-primary">Categories</span>
         </h3>
         <app-popular-categories />
+
+        <div class="mt-10 flex justify-center">
+          <a [routerLink]="['/browse']">
+            <button
+              class="rounded-xl border border-slate-100 p-5"
+              type="button">
+              Browse All Categories
+            </button>
+          </a>
+        </div>
       </section>
 
       <div class="border-t"></div>
@@ -16,16 +26,16 @@
         <h3 class="font-medium capitalize">
           Today's trending <span class="text-primary">products</span>
         </h3>
-        <p class="font-light mb-10">
+        <p class="mb-10 font-light">
           People are going crazy over these products.
         </p>
-        <app-popular-products> </app-popular-products>
+        <app-product-suggestions> </app-product-suggestions>
       </section>
 
       <div class="border-t"></div>
 
-      <section class="">
-        <div class="grid grid-cols-4 gap-x-8">
+      <section class="px-10 md:px-0">
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
           <app-info-card
             title="Free Shipping"
             subTitle="Free shipping on all Us order or above €200"

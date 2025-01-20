@@ -1,39 +1,41 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, computed, effect, inject, model, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Product } from '../../../models/product.model';
 import { ProductsService } from '../../../services/products.service';
 import { ProductsStore } from '../../../stores/products.store';
 import { ContainerComponent } from "../../layout/container/container.component";
 import { ButtonComponent } from "../../ui/button/button.component";
-import { PopularProductsComponent } from "../../ui/products/popular-products/popular-products.component";
+import { PopularProductsComponent } from "../../ui/products/product-suggestions/product-suggestions.component";
 import { ShoppingCartItemComponent } from "../../ui/shopping-cart-item/shopping-cart-item.component";
-import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-shopping-cart',
   imports: [ContainerComponent, FormsModule, ButtonComponent, RouterLink, PopularProductsComponent, ShoppingCartItemComponent, RouterLink, CurrencyPipe],
   templateUrl: './shopping-cart.component.html',
-  styleUrl: './shopping-cart.component.scss'
 })
 export class ShoppingCartComponent implements OnInit {
   productsStore = inject(ProductsStore)
   productService = inject(ProductsService)
+  router = inject(Router)
   products = signal<Product[]>([])
 
   constructor() { effect(() => this.LoadCartItems()) }
 
   shoppingCartItems = computed(() => {
     return this.productsStore.shoppingCart().map(item => ({
-      product: this.products().find(product => product.id === item.product_id),
+      product: this.products().find(product => product.id === item.productId),
       quantity: item.quantity
     }))
   })
 
   LoadCartItems() {
-    const product_ids = this.productsStore.shoppingCart().map(item => item.product_id)
+    const productIds = this.productsStore.shoppingCart().map(item => item.productId)
 
-    this.productService.FindProductsByIds(product_ids).subscribe(products => {
+    console.log(productIds);
+
+    this.productService.FindProductsByIds(productIds).subscribe(products => {
       this.products.set(products.data.products)
     })
   }
@@ -66,7 +68,7 @@ export class ShoppingCartComponent implements OnInit {
     let total = 0
 
     this.productsStore.shoppingCart().forEach(item => {
-      total += item.quantity * (this.products().find(product => product.id === item.product_id)?.price || 0)
+      total += item.quantity * (this.products().find(product => product.id === item.productId)?.price || 0)
     })
 
     return total || 0
@@ -79,4 +81,9 @@ export class ShoppingCartComponent implements OnInit {
     this.LoadCartItems()
   }
 
+
+  Checkout() {
+    this.productsStore.ClearCart()
+    this.router.navigate(['/order-confirmation'])
+  }
 }

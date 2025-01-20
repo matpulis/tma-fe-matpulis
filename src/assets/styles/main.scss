@@ -1,8 +1,10 @@
-@use "./tailwind.scss";
+@use './tailwind.scss';
 
-@use "./fonts.scss";
+@use './fonts.scss';
 
-@use "./typeography.scss";
+@use './typeography.scss';
+
+@use './forms.scss';
 
 :root {
   --anchor-color: #6a5c92;
@@ -19,26 +21,30 @@ body {
 
 body {
   margin: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: var(--text-color);
 }
 
-body::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 5px;
 }
 
-body::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-body::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background-color: var(--primary-color);
 }
 
 a {
   text-decoration: none;
-  color: var(--anchor-color);
-  &:hover {
-    color: var(--primary-color);
+  @apply text-indigo-600 transition hover:text-indigo-500;
+}
+
+// Inject animation delay classes
+@for $i from 1 through 30 {
+  .animation-delay-#{100 * $i} {
+    animation-delay: #{100 * $i}ms;
   }
 }

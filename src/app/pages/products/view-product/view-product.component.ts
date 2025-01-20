@@ -1,7 +1,7 @@
 import { CurrencyPipe, NgIf } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import JSConfetti from 'js-confetti';
 import { ContainerComponent } from "../../../components/layout/container/container.component";
 import { BreadcrumbsComponent } from "../../../components/ui/breadcrumbs/breadcrumbs.component";
@@ -13,13 +13,12 @@ import { Product } from '../../../models/product.model';
 import { ProductsService } from '../../../services/products.service';
 import { ProductsStore } from '../../../stores/products.store';
 import { CountdownTimerComponent } from "../../../components/ui/countdown-timer/countdown-timer.component";
-import { PopularProductsComponent } from "../../../components/ui/products/popular-products/popular-products.component";
+import { PopularProductsComponent } from '../../../components/ui/products/product-suggestions/product-suggestions.component';
 
 @Component({
   selector: 'app-view-product',
-  imports: [ContainerComponent, ReactiveFormsModule, NgIf, ImagePreviewComponent, ProductRatingComponent, CurrencyPipe, ButtonComponent, QuantitySelectorComponent, BreadcrumbsComponent, CountdownTimerComponent, PopularProductsComponent],
+  imports: [ContainerComponent, ReactiveFormsModule, NgIf, ImagePreviewComponent, ProductRatingComponent, RouterLink, CurrencyPipe, ButtonComponent, QuantitySelectorComponent, BreadcrumbsComponent, CountdownTimerComponent, PopularProductsComponent],
   templateUrl: './view-product.component.html',
-  styleUrl: './view-product.component.scss'
 })
 export class ViewProductComponent implements OnInit {
   jsConfetti = new JSConfetti()
@@ -30,19 +29,19 @@ export class ViewProductComponent implements OnInit {
   productsStore = inject(ProductsStore)
 
   review_count = Math.floor(Math.random() * 100)
-  product_id = signal('')
+  productId = signal('')
+  categorySlug = signal('')
   quantity = signal(1)
   addedToCart = signal(false)
   product = signal<Product | null>(null)
   cartCount = computed(() => {
-    const cartItem = this.productsStore.shoppingCart().find(item => item.product_id === this.product_id());
+    const cartItem = this.productsStore.shoppingCart().find(item => item.productId === this.productId());
 
     return cartItem ? cartItem.quantity : 0
   })
   FindProduct() {
-    if (this.product_id() && this.product_id().length > 0) {
-      this.productsService.SearchProducts(this.product_id() || '').subscribe(response => {
-
+    if (this.productId() && this.productId().length > 0) {
+      this.productsService.SearchProducts(this.productId() || '').subscribe(response => {
         if (response.data.products.length > 0) {
           this.product.set(response.data.products[0])
         } else {
@@ -66,11 +65,11 @@ export class ViewProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.product_id.set(params.get('id') || '')
+      this.productId.set(params.get('id') || '')
+      this.categorySlug.set(params.get('categorySlug') || '')
       this.quantity.set(1)
       this.addedToCart.set(false)
       this.FindProduct()
-
     })
   }
 }

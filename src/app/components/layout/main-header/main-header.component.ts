@@ -13,7 +13,6 @@ import { ProductsStore } from '../../../stores/products.store';
   selector: 'app-main-header',
   imports: [ContainerComponent, RouterLink, DropdownComponent, DropdownMenuComponent, DropdownMenuItemComponent, NgOptimizedImage, SearchbarComponent],
   templateUrl: './main-header.component.html',
-  styleUrl: './main-header.component.scss'
 })
 export class MainHeaderComponent {
   authStore = inject(AuthStore)
