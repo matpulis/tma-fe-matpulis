@@ -39,7 +39,6 @@ export const ProductsStore = signalStore(
             productsService.FetchProductCategories().subscribe(response => {
                 patchState(store, { categories: response.data.categories })
             })
-
         },
         AddToCart(productId: string, quantity: number) {
             const itemIndex = store.shoppingCart().findIndex(item => item.productId === productId)
@@ -74,7 +73,6 @@ export const ProductsStore = signalStore(
             return state.shoppingCart().reduce((total, item) => total + item.quantity, 0)
         }),
         popularCategories: computed(() => {
-
             const categories = [...state.categories()]
             return categories.length > 0 ? categories.sort((a, b) => b.products.length - a.products.length).splice(0, 6) : []
         })

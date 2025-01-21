@@ -71,6 +71,7 @@ export class ProductsService {
       query: QUERY,
     });
   }
+
   FindProductsByIds(ids: string[]) {
     const QUERY = gql`
       query FindProductsByIds($ids: [ID!]!){

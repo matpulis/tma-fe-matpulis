@@ -1,22 +1,19 @@
 <section>
   <app-container>
-    <!-- Breadcrumbs -->
     <app-breadcrumbs
       [breadcrumbs]="[
         { icon: 'lni-home-2', route: '/' },
-        {
-          title: 'Browse Products',
-        },
+        { title: 'Browse Products' },
       ]" />
 
     <div class="grid grid-cols-5 gap-5">
       <aside
-        (click)="filtersToggled() ? onToggleFilters() : null"
+        (click)="filtersToggled() ? filtersToggled.set(false) : null"
         class="fixed top-0 z-20 col-span-1 h-screen overflow-auto border-r bg-white px-10 pt-32 text-xs transition-all md:static md:-z-0 md:block md:px-0 md:pt-0 lg:text-base"
         [class]="filtersToggled() ? 'left-0' : '-left-full md:left-0'">
         <!-- Mobile Close Button -->
         <button
-          (click)="onToggleFilters()"
+          (click)="filtersToggled.set(false)"
           class="absolute right-5 top-3 md:hidden">
           <i class="lni lni-xmark text-3xl text-primary"></i>
         </button>
@@ -63,7 +60,7 @@
         @if (filters().query.length > 0) {
           <p class="mb-2 text-lg">
             Found
-            <span class="font-medium">{{ pagination().total }}</span> products
+            <span class="font-medium">{{ paginator().total }}</span> products
             searching for '<span class="font-medium">{{ filters().query }}</span
             >'
           </p>
@@ -86,63 +83,15 @@
         }
 
         <!-- Top bar -->
-        <div class="flex items-center justify-between rounded-lg border p-1">
-          <div class="flex items-center">
-            <button
-              (click)="onToggleFilters()"
-              type="button"
-              (click)="viewType.set('grid')"
-              class="flex h-10 w-10 items-center justify-center rounded-md transition hover:bg-indigo-100/50 md:hidden">
-              <i class="lni lni-funnel-1 textlg text-primary"></i>
-            </button>
-            <button
-              type="button"
-              (click)="viewType.set('grid')"
-              [class]="
-                viewType() === 'grid'
-                  ? 'bg-primary text-white'
-                  : 'hover:bg-indigo-100/50'
-              "
-              class="flex h-10 w-10 items-center justify-center rounded-md transition">
-              <i class="lni lni-dashboard-square-1 text-2xl"></i>
-            </button>
-            <button
-              type="button"
-              (click)="viewType.set('list')"
-              [class]="
-                viewType() === 'list'
-                  ? 'bg-primary text-white'
-                  : 'hover:bg-indigo-100/50'
-              "
-              class="flex h-10 w-10 items-center justify-center rounded-md transition">
-              <i class="lni lni-menu-cheesburger text-2xl"></i>
-            </button>
-          </div>
+        <app-results-controls
+          (refresh)="RefreshProducts()"
+          [(paginator)]="paginator"
+          [(viewType)]="viewType"
+          [(orderBy)]="orderBy"
+          [(limit)]="limit"
+          [(filtersToggled)]="filtersToggled" />
 
-          <div class="flex-grow"></div>
-
-          <div class="flex items-center">
-            <span class="text-sm text-slate-500">Show: </span>
-            <select
-              (change)="onLimitChange()"
-              [(ngModel)]="limit"
-              class="block w-16 cursor-pointer select-none rounded-lg border border-transparent p-2.5 text-sm transition hover:border-primary focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary dark:focus:ring-primary">
-              <option [value]="10" selected>10</option>
-              <option [value]="25">25</option>
-              <option [value]="50">50</option>
-            </select>
-          </div>
-          <select
-            (change)="RefreshProducts()"
-            [(ngModel)]="orderBy"
-            class="block cursor-pointer select-none rounded-lg border border-transparent p-2.5 text-sm transition hover:border-primary focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary dark:focus:ring-primary">
-            <option value="name_ASC" selected>Name, A to Z</option>
-            <option value="name_DESC">Name, Z to A</option>
-            <option value="price_ASC">Price, Low to High</option>
-            <option value="price_DESC">Price, High to Low</option>
-          </select>
-        </div>
-
+        <!-- Search Results -->
         <div
           class="mt-5 grid gap-5"
           [class]="
@@ -157,6 +106,7 @@
           }
         </div>
 
+        <!-- If no products are found -->
         @if (products().length === 0) {
           <div
             class="flex h-1/2 flex-col items-center justify-center rounded-lg bg-slate-100 py-32">
@@ -170,23 +120,11 @@
           </div>
         }
 
-        <div class="mt-5 flex items-center border-t pt-5">
-          <div class="flex-grow text-sm font-medium">
-            Showing
-            {{ current_page_start() }}
-            - {{ current_page_end() }} of {{ pagination().total }} total
-          </div>
-
-          <div class="flex items-center space-x-4">
-            @if (pagination().hasPreviousPage) {
-              <app-button (click)="onPrevPage()">Prev</app-button>
-            }
-            <span>Page {{ pagination().page }}</span>
-            @if (pagination().hasNextPage) {
-              <app-button (click)="onNextPage()">Next</app-button>
-            }
-          </div>
-        </div>
+        <!-- Pagination controls -->
+        <app-page-controls
+          [limit]="limit()"
+          [(paginator)]="paginator"
+          (refresh)="RefreshProducts()" />
       </main>
     </div>
   </app-container>

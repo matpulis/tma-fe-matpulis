@@ -4,16 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContainerComponent } from "../../components/layout/container/container.component";
 import { BreadcrumbsComponent } from "../../components/ui/breadcrumbs/breadcrumbs.component";
-import { ButtonComponent } from "../../components/ui/button/button.component";
+import { PageControlsComponent } from "../../components/ui/page-controls/page-controls.component";
 import { ProductCardComponent } from "../../components/ui/products/product-card/product-card.component";
+import { ResultsControlsComponent } from "../../components/ui/results-controls/results-controls.component";
+import { Paginator } from '../../models/paginator.model';
 import { Product } from '../../models/product.model';
+import { SearchSort } from '../../models/search-sort.model';
 import { ProductsService } from '../../services/products.service';
 import { fadeInOut } from '../../shared/animations';
 import { ProductsStore } from '../../stores/products.store';
 
 @Component({
   selector: 'app-browse-products',
-  imports: [ContainerComponent, FormsModule, BreadcrumbsComponent, ProductCardComponent, ButtonComponent],
+  imports: [ContainerComponent, FormsModule, BreadcrumbsComponent, ProductCardComponent, PageControlsComponent, ResultsControlsComponent],
   templateUrl: './browse-products.component.html',
   animations: [fadeInOut],
 })
@@ -23,29 +26,26 @@ export class BrowseProductsComponent implements OnInit {
   route = inject(ActivatedRoute)
   router = inject(Router)
   location = inject(Location)
+
   filtersToggled = signal(false)
-
   viewType = signal<'grid' | 'list'>('grid')
-
-  categories = computed(() => this.productsStore.categories())
-
   products = signal<Product[]>([])
+  orderBy = signal<SearchSort>('name_ASC')
+  limit = signal(25)
 
-  pagination = signal({
+  paginator = signal<Paginator>({
     page: 1,
     hasNextPage: false,
     hasPreviousPage: false,
     total: 0,
   })
 
-  orderBy = signal('name_ASC')
-  limit = signal(25)
-
-
   filters = signal({
     query: '',
     categories: [] as string[]
   })
+
+  categories = computed(() => this.productsStore.categories())
 
   constructor() {
     effect(() => {
@@ -53,7 +53,6 @@ export class BrowseProductsComponent implements OnInit {
 
     })
   }
-
 
   private UpdateQueryParams(): void {
     const queryParams = new URLSearchParams(window.location.search);
@@ -89,8 +88,8 @@ export class BrowseProductsComponent implements OnInit {
       })
     }
 
-    this.pagination.set({
-      ...this.pagination(),
+    this.paginator.set({
+      ...this.paginator(),
       page: 1
     })
 
@@ -120,10 +119,7 @@ export class BrowseProductsComponent implements OnInit {
     this.RefreshProducts()
   }
 
-  onLimitChange() {
-    this.pagination().page = 1
-    this.RefreshProducts()
-  }
+
 
   ParseQueryParams() {
     this.route.queryParams.subscribe(params => {
@@ -144,9 +140,9 @@ export class BrowseProductsComponent implements OnInit {
   }
 
   RefreshProducts() {
-    const pagination = this.pagination()
+    const paginator = this.paginator()
 
-    const offset = pagination.page == 1 ? 0 : (pagination.page - 1) * this.limit()
+    const offset = paginator.page == 1 ? 0 : (paginator.page - 1) * this.limit()
 
     let limit = this.limit();
     limit = typeof limit === 'string' ? parseInt(limit) : this.limit()
@@ -155,8 +151,8 @@ export class BrowseProductsComponent implements OnInit {
       .FilterPaginateProducts(this.filters().query, this.filters().categories, limit, offset, this.orderBy())
       .subscribe(response => {
 
-        this.pagination.update(pagination => ({
-          ...pagination,
+        this.paginator.update(paginator => ({
+          ...paginator,
           hasNextPage: response.data.productsConnection.pageInfo.hasNextPage,
           hasPreviousPage: response.data.productsConnection.pageInfo.hasPreviousPage,
           total: response.data.productsConnection.aggregate.count
@@ -167,36 +163,9 @@ export class BrowseProductsComponent implements OnInit {
       })
   }
 
-  onNextPage() {
-    this.pagination.update(pagination => ({
-      ...pagination,
-      page: pagination.page + 1
-    }))
-    this.RefreshProducts()
-  }
 
-  onPrevPage() {
-    this.pagination.update(pagination => ({
-      ...pagination,
-      page: pagination.page - 1
-    }))
-    this.RefreshProducts()
-  }
 
-  current_page_start = computed(() => {
-    const value = this.pagination().page === 1 ? 1 : (this.limit() * (this.pagination().page - 1)) + 1
-    return this.pagination().total === 0 ? 0 : value
-  })
 
-  current_page_end = computed(() => {
-    const value = this.limit() * this.pagination().page
-
-    return value > this.pagination().total ? this.pagination().total : value
-  })
-
-  onToggleFilters() {
-    this.filtersToggled.set(!this.filtersToggled())
-  }
 
   ngOnInit(): void {
     this.ParseQueryParams()

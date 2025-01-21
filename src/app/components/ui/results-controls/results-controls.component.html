@@ -1,0 +1,56 @@
+<div class="flex items-center justify-between rounded-lg border p-1">
+  <div class="flex items-center">
+    <button
+      (click)="onToggleFilters()"
+      type="button"
+      (click)="viewType.set('grid')"
+      class="flex h-10 w-10 items-center justify-center rounded-md transition hover:bg-indigo-100/50 md:hidden">
+      <i class="lni lni-funnel-1 textlg text-primary"></i>
+    </button>
+    <button
+      type="button"
+      (click)="viewType.set('grid')"
+      [class]="
+        viewType() === 'grid'
+          ? 'bg-primary text-white'
+          : 'hover:bg-indigo-100/50'
+      "
+      class="flex h-10 w-10 items-center justify-center rounded-md transition">
+      <i class="lni lni-dashboard-square-1 text-2xl"></i>
+    </button>
+    <button
+      type="button"
+      (click)="viewType.set('list')"
+      [class]="
+        viewType() === 'list'
+          ? 'bg-primary text-white'
+          : 'hover:bg-indigo-100/50'
+      "
+      class="flex h-10 w-10 items-center justify-center rounded-md transition">
+      <i class="lni lni-menu-cheesburger text-2xl"></i>
+    </button>
+  </div>
+
+  <div class="flex-grow"></div>
+
+  <div class="flex items-center">
+    <span class="text-sm text-slate-500">Show: </span>
+    <select
+      (change)="onLimitChange()"
+      [(ngModel)]="limit"
+      class="block w-16 cursor-pointer select-none rounded-lg border border-transparent p-2.5 text-sm transition hover:border-primary focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary dark:focus:ring-primary">
+      <option [value]="10" selected>10</option>
+      <option [value]="25">25</option>
+      <option [value]="50">50</option>
+    </select>
+  </div>
+  <select
+    (change)="refresh.emit()"
+    [(ngModel)]="orderBy"
+    class="block cursor-pointer select-none rounded-lg border border-transparent p-2.5 text-sm transition hover:border-primary focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary dark:focus:ring-primary">
+    <option value="name_ASC" selected>Name, A to Z</option>
+    <option value="name_DESC">Name, Z to A</option>
+    <option value="price_ASC">Price, Low to High</option>
+    <option value="price_DESC">Price, High to Low</option>
+  </select>
+</div>

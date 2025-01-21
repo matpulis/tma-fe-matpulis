@@ -10,12 +10,11 @@ import { fadeAnimation } from './shared/animations';
   templateUrl: './app.component.html',
   animations: [fadeAnimation]
 })
+
 export class AppComponent implements OnInit {
   private authStore = inject(AuthStore)
   private productStore = inject(ProductsStore)
   public route = inject(ActivatedRoute)
-
-
 
   ngOnInit(): void {
     this.authStore.InitAuth();

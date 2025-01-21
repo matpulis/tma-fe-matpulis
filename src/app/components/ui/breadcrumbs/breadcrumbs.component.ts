@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { BreadCrumbItem } from '../../../models/breadcrumb-item.model';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -7,10 +8,5 @@ import { RouterLink } from '@angular/router';
   templateUrl: './breadcrumbs.component.html',
 })
 export class BreadcrumbsComponent {
-  breadcrumbs = input<{
-    title?: string,
-    icon?: string,
-    route?: string
-    queryParams?: Record<string, string>
-  }[]>([])
+  breadcrumbs = input.required<BreadCrumbItem[]>()
 }

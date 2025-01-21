@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { ContainerComponent } from "../../components/layout/container/container.component";
+import { FaqItem } from '../../models/faq-item.model';
+import { FaqItemComponent } from "../../components/ui/faq-item/faq-item.component";
 
 @Component({
   selector: 'app-faqs',
-  imports: [ContainerComponent],
+  imports: [ContainerComponent, FaqItemComponent],
   templateUrl: './faqs.component.html',
 })
+
 export class FaqsComponent {
-  faqs = [
+  faqs: FaqItem[] = [
     {
       "question": "What are your shipping options and delivery times?",
       "answer": "We offer standard and express shipping. Delivery times vary by location: standard shipping takes 5–7 business days, and express shipping takes 1–3 business days."

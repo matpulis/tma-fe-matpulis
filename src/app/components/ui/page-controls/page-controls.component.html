@@ -1,0 +1,17 @@
+<div class="mt-5 flex items-center border-t pt-5">
+  <div class="flex-grow text-sm font-medium">
+    Showing
+    {{ currentPageStart() }}
+    - {{ currentPageEnd() }} of {{ paginator().total }} total
+  </div>
+
+  <div class="flex items-center space-x-4">
+    @if (paginator().hasPreviousPage) {
+      <app-button (click)="onPrevPage()">Prev</app-button>
+    }
+    <span>Page {{ paginator().page }}</span>
+    @if (paginator().hasNextPage) {
+      <app-button (click)="onNextPage()">Next</app-button>
+    }
+  </div>
+</div>

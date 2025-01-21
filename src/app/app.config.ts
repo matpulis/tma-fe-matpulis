@@ -13,7 +13,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })),
-    provideHttpClient(), provideAnimationsAsync(), provideHttpClient(), provideHttpClient(), provideApollo(() => {
+    provideHttpClient(),
+    provideAnimationsAsync(),
+    provideHttpClient(),
+    provideHttpClient(),
+    provideApollo(() => {
       const httpLink = inject(HttpLink);
 
       return {
