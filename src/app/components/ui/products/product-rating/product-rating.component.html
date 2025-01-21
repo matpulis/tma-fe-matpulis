@@ -1,16 +1,15 @@
 <div class="flex items-center space-x-1">
-  @for (item of [].constructor(5); track $index) { @if($index < rating()){
-  <svg
-    class="fill-indigo-500 h-4"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-  >
-    <path
-      d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"
-    />
-  </svg>
-  } @else{
-  <i class="text-slate-400 lni lni-star-fat"></i>
-
-  } }
+  @for (item of [].constructor(5); track $index) {
+    @if ($index < rating()) {
+      <svg
+        class="h-3 fill-indigo-500 md:h-4"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24">
+        <path
+          d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
+      </svg>
+    } @else {
+      <i class="lni lni-star-fat text-xs text-slate-400 md:text-base"></i>
+    }
+  }
 </div>
