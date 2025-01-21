@@ -108,7 +108,7 @@ export class BrowseProductsComponent implements OnInit {
 
     this.filters().query = ''
 
-
+    this.RefreshProducts()
   }
 
   onClearAllFilters(): void {
