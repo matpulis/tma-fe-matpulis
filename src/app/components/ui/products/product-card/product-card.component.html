@@ -10,14 +10,11 @@
   [class]="viewType() === 'list' ? 'flex items-center' : ''">
   <!-- Product Header -->
   <div
-    class="relative h-full overflow-hidden bg-slate-50"
-    [class]="viewType() === 'grid' ? 'h-48 md:h-72' : 'h-32 w-32'">
-    <img
-      [src]="product.images[0].url"
-      [alt]="product.name"
-      width="500"
-      height="600"
-      class="object-cover object-center transition duration-500 group-hover:scale-110" />
+    class="relative overflow-hidden bg-slate-50 bg-[length:100%_100%] bg-center bg-no-repeat transition-all duration-300 hover:bg-[length:110%_110%]"
+    [class]="viewType() === 'grid' ? 'h-56 md:h-72' : 'h-36 w-32'"
+    [style]="{
+      'background-image': 'url(' + product.images[0].url + ')',
+    }">
     @if (viewType() === 'grid') {
       <div class="absolute bottom-5 left-0 z-10 flex w-full justify-center">
         @if (alreadyAddedToCart()) {

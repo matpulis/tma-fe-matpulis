@@ -10,8 +10,8 @@ import { ProductsStore } from '../../../../stores/products.store';
   selector: 'app-product-card',
   imports: [CurrencyPipe, RouterLink, ProductRatingComponent, NgIf],
   templateUrl: './product-card.component.html',
-  styleUrl: './product-card.component.scss'
 })
+
 export class ProductCardComponent {
   readonly product = input<Product>();
 
